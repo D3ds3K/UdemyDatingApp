@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddCors();
 builder.Services.AddDbContext<AppUserContext>(opt=>{
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
@@ -21,7 +22,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(builder=>builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
